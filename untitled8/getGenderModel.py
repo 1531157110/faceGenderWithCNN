@@ -46,15 +46,29 @@ def getGenderForecast(img):
         result = face_recognition_model.predict_classes(img)
     return result
 
+def getFace(img):
+    #加载卷积神经网络模型：
+    IMAGE_SIZE = 32
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray,
+                                          scaleFactor=1.2,
+                                          minNeighbors=2,
+                                          minSize=(
+                                          2, 2), )  # 根据检测到的坐标及尺寸裁剪、无形变resize、并送入模型运算，得到结果后在人脸上打上矩形框并在矩形框上方写上识别结果：
+    for (x, y, width, height) in faces:
+        # cv2.imshow('img', image[y:y + height, x:x + width])
+        img = img[y:y + height, x:x + width]
+        img=cv2.resize(img,(250,250))
+    return img
 if __name__ == '__main__':
     #男的为1女的为0
     # img=cv2.imread('testImg/dongmingzhu.jpg')#董明珠，女的0
-    # img = cv2.imread('testImg/dongmingzhu2.jpg')  # 董明珠，女的0
+    img = cv2.imread('testImg/dongmingzhu2.jpg')  # 董明珠，女的0
     # img = cv2.imread('testImg/nv.jpg')#女0
     # img = cv2.imread('testImg/liyanhong2.jpg')#李彦宏1
     # img = cv2.imread('testImg/liyanhong3.jpg')  # 李彦宏1
     # img = cv2.imread('testImg/mayun.jpg')#马云1
-    img = cv2.imread('testImg/nan2.jpg')  # 男
+    # img = cv2.imread('testImg/nan2.jpg')  # 男
 
 
     # img = cv2.imread('testImg/nv2.jpg')#女！！！这个预测错了
